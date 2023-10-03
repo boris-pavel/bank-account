@@ -1,5 +1,3 @@
-import kotlin.random.Random
-
 enum class AccountType(
     val value: String
 ) {
