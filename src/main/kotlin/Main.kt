@@ -1,3 +1,5 @@
+import kotlin.random.Random
+
 enum class AccountType(
     val value: String
 ) {
@@ -5,7 +7,12 @@ enum class AccountType(
     CREDIT("Credit"),
     CHECKING("Checking")
 }
-
+var accountBalance: Int = (0..1000).shuffled()[0]
+fun withdraw(amount: Int): Int {
+    accountBalance -= amount
+    println("The amount you withdrew is $amount dollars.")
+    return amount
+}
 
 fun main() {
     println("Welcome to your banking system.")
@@ -27,4 +34,7 @@ fun main() {
     }
 
     println("You have created a ${accountType.value} account.")
+    println("The current balance is $accountBalance dollars.")
+    withdraw(0)
+
 }
