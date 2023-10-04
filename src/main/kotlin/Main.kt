@@ -5,10 +5,44 @@ enum class AccountType(
     CREDIT("Credit"),
     CHECKING("Checking")
 }
-var accountBalance: Int = (0..1000).shuffled()[0]
+var accountBalance = (0..1000).random()
+val money = (0..1000).random()
+
 fun withdraw(amount: Int): Int {
     accountBalance -= amount
-    println("The amount you withdrew is $amount dollars.")
+    return amount
+}
+
+fun debitWithdraw(amount: Int): Int {
+    return if (accountBalance == 0) {
+        println("Can't withdraw, no money on this account!")
+        accountBalance
+    } else if (amount > accountBalance) {
+        println("Not enough money on this account! The checking balance is $accountBalance dollars.")
+        0
+    } else
+        withdraw(amount)
+}
+
+fun creditDeposit(amount: Int): Int {
+    return if (accountBalance == 0) {
+        println("You don't need to deposit anything in order to pay off the account since it has already been paid off.")
+        accountBalance
+    } else if (accountBalance + amount > 0) {
+        println("Deposit failed, you tried to pay off an amount greater than the credit balance. The current balance is $accountBalance dollars.")
+        0
+    } else if (amount == -accountBalance) {
+        accountBalance = 0
+        println("You have paid of this account!")
+        amount
+    } else {
+        deposit(amount)
+    }
+}
+
+fun deposit(amount: Int): Int {
+    accountBalance += amount
+    println("You successfully deposited $amount dollars. The current balance is $accountBalance dollars.")
     return amount
 }
 
@@ -33,6 +67,17 @@ fun main() {
 
     println("You have created a ${accountType.value} account.")
     println("The current balance is $accountBalance dollars.")
-    withdraw(0)
+    println("The amount you transferred is $money dollars.")
 
+    var output: Int = withdraw(money)
+    println("The amount you withdrew is $output dollars.")
+
+    output = debitWithdraw(money)
+    println("The amount you withdrew is $output dollars.")
+
+    output = deposit(money)
+    println("The amount you deposited is $output dollars.")
+
+    output = creditDeposit(money)
+    println("The amount you deposited is $output dollars.")
 }
