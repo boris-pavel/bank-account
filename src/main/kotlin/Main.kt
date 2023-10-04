@@ -65,4 +65,38 @@ fun main() {
         }
     }
 
+    fun transfer(mode: String) {
+        val transferAmount = when (mode) {
+            "withdraw" -> if (accountType == "debit") debitWithdraw(money) else withdraw(money)
+            "deposit" -> if (accountType == "credit") creditDeposit(money) else deposit(money)
+            else -> return
+        }
+        if (mode == "withdraw")
+            println("The amount you withdrew is $transferAmount dollars.")
+        else
+            println("The amount you deposited is $transferAmount dollars.")
+    }
+
+    var isSystemOpen = true
+    var option: Int
+
+    while (isSystemOpen) {
+        println("What would you like to do?")
+        println("1. Check account balance")
+        println("2. Withdraw money")
+        println("3. Deposit money")
+        println("4. Close the app")
+        println("Which option do you choose? (1,2,3 or 4)")
+
+        option = readln().toInt()
+        println("You have chosen $option.")
+
+        when (option) {
+            1 -> println("The account balance is $accountBalance.")
+            2 -> transfer("withdraw")
+            3 -> transfer("deposit")
+            4 -> isSystemOpen = false
+            else -> continue
+        }
+    }
 }
